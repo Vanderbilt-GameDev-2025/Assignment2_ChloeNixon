@@ -17,21 +17,6 @@ void EnemyChaser::_bind_methods() {
 	ClassDB::bind_method(D_METHOD("set_speed", "p_speed"), &EnemyChaser::set_speed);
 
 	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "speed"), "set_speed", "get_speed");
-
-	ClassDB::bind_method(D_METHOD("get_amplitude"), &EnemyChaser::get_amplitude);
-	ClassDB::bind_method(D_METHOD("set_amplitude", "p_amplitude"), &EnemyChaser::set_amplitude);
-
-	ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "amplitude"), "set_amplitude", "get_amplitude");
-
-    ClassDB::bind_method(D_METHOD("get_hp"), &EnemyChaser::get_hp);
-	ClassDB::bind_method(D_METHOD("set_hp", "p_hp"), &EnemyChaser::set_hp);
-    	
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "hp", PROPERTY_HINT_RANGE, "0,6,1"), "set_hp", "get_hp");
-
-    ClassDB::bind_method(D_METHOD("get_points"), &EnemyChaser::get_points);
-	ClassDB::bind_method(D_METHOD("set_points", "p_points"), &EnemyChaser::set_points);
-   
-	ADD_PROPERTY(PropertyInfo(Variant::INT, "points", PROPERTY_HINT_RANGE, "100,1000,100"), "set_points", "get_points");
 }
 
 EnemyChaser::EnemyChaser() {
@@ -72,13 +57,18 @@ void EnemyChaser::_process(double delta) {
 		new_position = new_position + enemy_pos;
 		set_position(new_position);
 	}
+	enemy_pos = new_position;
+	
+	_process_ai();
+}
+
+void EnemyChaser::_process_ai() { 
 	distance = enemy_pos.distance_to(player_pos);
 	//if the distance between enemy & player is within detection, changes the state to "Chasing"
 	if (distance < detection_radius && current_state == state_machine->states["Idle"]) {
 		current_state = state_machine->change_state("Chasing");
 		state_machine->change_state("Chasing");
 	};
-	enemy_pos = new_position;
 
 	//Finds player coords relative to enemy, and moves enemy towards player in a chasing state
 	Node *parent_node = get_parent();
@@ -96,30 +86,5 @@ void EnemyChaser::set_speed(const double p_speed) {
 
 double EnemyChaser::get_speed() const {
 	return speed;
-}
-
-void EnemyChaser::set_hp(const int p_hp) {
-	hp = p_hp;
-}
-
-int EnemyChaser::get_hp() const {
-	return hp;
-}
-
-
-void EnemyChaser::set_points(const int p_points) {
-	points = p_points;
-}
-
-int EnemyChaser::get_points() const {
-	return points;
-}
-
-void EnemyChaser::set_amplitude(const double p_amplitude) {
-	amplitude = p_amplitude;
-}
-
-double EnemyChaser::get_amplitude() const {
-	return amplitude;
 }
 

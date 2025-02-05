@@ -3,7 +3,7 @@ extends Area2D
 
 # signals for if enemy is kills and hit
 var time = 0.0
-signal killed_gd(points)
+signal killed_gd()
 signal hit_gd
 
 @onready var cpp_node = $".."
@@ -39,5 +39,5 @@ func damage():
 
 # Signals enemy death to main scene, deletes enemy
 func die():
-	killed_gd.emit(cpp_node.points)
+	killed_gd.emit()
 	queue_free()

@@ -3,7 +3,7 @@ extends Node2D
 #possible enemy scenes that can spawn
 @export var enemy_scene_gd: Array[PackedScene] = []
 # parallax scroll speeds
-var scroll_speeds = [35, 150]
+var scroll_speeds = [30, 50, 150]
 		
 @onready var player = $player
 @onready var player_spawn_pos = $playerSpawnPosition
@@ -18,6 +18,7 @@ var scroll_speeds = [35, 150]
 @onready var scorehud = $UILayer/HUD
 @onready var gameoverhud = $UILayer/gameOverHUD
 @onready var background = $ParallaxBackground
+@onready var backgroundStars = $ParallaxBackgroundStars
 @onready var foreground = $ParallaxForeground
 
 @onready var sound_bullet = $SFX/bullet_shot
@@ -56,9 +57,13 @@ func _process(delta: float) -> void:
 	background.scroll_offset.x -= delta * scroll_speeds[0]
 	if background.scroll_offset.x >= 1820:
 		background.scroll_offset.x = 0
-	foreground.scroll_offset.x -= delta * scroll_speeds[1]
+	backgroundStars.scroll_offset.x -= delta * scroll_speeds[1]
+	if backgroundStars.scroll_offset.x >= 1820:
+		backgroundStars.scroll_offset.x = 0
+	foreground.scroll_offset.x -= delta * scroll_speeds[2]
 	if foreground.scroll_offset.x >= 1820:
 		foreground.scroll_offset.x = 0
+		
 	if player and is_instance_valid(player):
 		player_coordinates.emit(player.global_position)
 		player_pos = player.global_position

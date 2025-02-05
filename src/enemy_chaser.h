@@ -26,8 +26,7 @@ private:
     float distance;
     //player node
     Node2D* player = nullptr;
-
-    Dictionary states;
+    //current state enemy is in
     State* current_state = nullptr;
     //state machine that manages enemies states
     StateMachine* state_machine;
@@ -48,14 +47,9 @@ public:
 	~EnemyChaser();
 	void _ready() override;
 	void _process(double delta) override;
+    void _process_ai();
 	void set_speed(const double p_speed);
 	double get_speed() const;
-    void set_hp(const int p_hp);
-	int get_hp() const;
-    void set_points(const int p_points);
-	int get_points() const;
-    void set_amplitude(const double p_amplitude);
-	double get_amplitude() const;
 };
 
 }
