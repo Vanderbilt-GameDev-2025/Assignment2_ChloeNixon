@@ -13,7 +13,7 @@
 using namespace godot;
 
 void StateChasing::_bind_methods() {
-	// ADD_PROPERTY(PropertyInfo(Variant::FLOAT, "amplitude"), "set_amplitude", "get_amplitude");
+
 }
 
 
@@ -33,7 +33,6 @@ void StateChasing::enter() {
 }
 
 //oscilates, then moves left based on speed variable.
-
 Vector2 StateChasing::update(double time_passed) {
     amplitude = .5;
     speed = 10;
@@ -56,14 +55,3 @@ Vector2 StateChasing::seekplayer(Vector2 player_pos, Vector2 current_pos) {
 void StateChasing::exit() {
     return;
 }
-
-
-// //function to move position left at a constant given speed, made to call within the script
-// void StateIdle::move_left(const Vector2 p_position) {
-//     return;
-// }
-
-// //function to oscillate position at given amplitude, made to call within the script
-// void StateIdle::oscillate(const Vector2 p_position) {
-
-// }

@@ -22,19 +22,22 @@ private:
     int hp;
     //amount of points awarded when enemy is killed
     int points;
-
+    //calculated distance between enemy and player
     float distance;
-
+    //player node
     Node2D* player = nullptr;
 
     Dictionary states;
     State* current_state = nullptr;
-    State* current_state_real = nullptr;
+    //state machine that manages enemies states
     StateMachine* state_machine;
-
-    int distance_radius;
+    //the distance from the player where the enemy will change states
+    float detection_radius;
+    //starting position of enemy
     Dictionary starting_pos;
+    //calculated coordinates of the player
     Vector2 player_pos;
+    //calculated coordinates of the player
     Vector2 enemy_pos;
 
 protected:
@@ -45,9 +48,6 @@ public:
 	~EnemyChaser();
 	void _ready() override;
 	void _process(double delta) override;
-    void _process_ai();
-    Vector2 move_left(const Vector2 p_position);
-    Vector2 oscillate(const Vector2 p_position);
 	void set_speed(const double p_speed);
 	double get_speed() const;
     void set_hp(const int p_hp);

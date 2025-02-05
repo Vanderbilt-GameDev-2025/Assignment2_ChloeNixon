@@ -7,6 +7,7 @@ void StateMachine::_bind_methods() {
     ClassDB::bind_method(D_METHOD("change_state", "new_state"), &StateMachine::change_state);
 }
 
+
 StateMachine::StateMachine() {
     current_state = nullptr;
     StateIdle* idle_state = memnew(StateIdle);
@@ -16,39 +17,35 @@ StateMachine::StateMachine() {
     change_state("Idle");
 }
 
+
 StateMachine::~StateMachine() {
     states.clear();
 }
 
-// void StateMachine::initialize() {
-//     states["Idle"] = memnew(StateIdle);
-//     states["Chasing"] = memnew(StateChasing);
-//     change_state("Idle");
-// }
 
 State* StateMachine::change_state(const String &new_state) {
+    //checks for if parameter is a valid state
     if (states.has(new_state)) {
         if (current_state) {
             current_state->exit();
         }
-        UtilityFunctions::print("chang to: " + new_state);
-        // current_state = static_cast<State*>(states[new_state]);
+
+        //creates pointer for new state
         State *new_state_ptr = Object::cast_to<State>(states[new_state].operator Object*());
+        //checks if state successfully initialized
         if (new_state_ptr) {
+            UtilityFunctions::print("State change to: " + new_state);
             current_state = new_state_ptr;
         } else {
             UtilityFunctions::print("State cast failed: " + new_state);
         }
-        // current_state = Object::cast_to<State>(states[new_state].operator Object*());
-        if (current_state == states["Chasing"]) {
-            UtilityFunctions::print("TEMP WORK");
-        }
-        return current_state;
+
     } else {
         UtilityFunctions::print("State not found: " + new_state);
-        return current_state;
     }
+    return current_state;
 }
+
 
 State* StateMachine::get_state() {
     return current_state;

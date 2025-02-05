@@ -15,23 +15,20 @@ class StateMachine : public Node {
 
 private:
     State* current_state;
-    Vector2 player_pos;
-    Vector2 enemy_pos;
 
 protected:
     static void _bind_methods();
 
 public:
+    //all enemy states 
+    Dictionary states;
+
     StateMachine();
     ~StateMachine();
-
-    //all states 
-    Dictionary states;
-    void initialize();
-    void update_states(Vector2 new_player_pos, double delta);
+    //changes state to the given string, then returns the new current state
     State* change_state(const String &new_state);
+    //gets current state
     State* get_state();
-    Vector2 process_state(double time_passed);
 };
 
 }

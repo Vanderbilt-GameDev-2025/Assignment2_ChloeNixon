@@ -4,10 +4,6 @@ extends EnemyChaser
 signal hit_gd
 signal killed_gd(points)
 
-func _on_area_body_entered(body: Node2D) -> void:
-	pass # Replace with function body.
-
-
 func _on_area_hit_gd() -> void:
 	hit_gd.emit()
 

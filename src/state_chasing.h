@@ -5,8 +5,8 @@
 #include <godot_cpp/classes/sprite2d.hpp>
 
 namespace godot {
+    
 //Class defining the 'chasing' state, where the enemy is supposed to move faster and towards the player.
-
 class StateChasing : public State {
 	GDCLASS(StateChasing, State)
 

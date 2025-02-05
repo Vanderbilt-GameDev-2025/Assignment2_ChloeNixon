@@ -41,22 +41,16 @@ EnemyChaser::EnemyChaser() {
     speed = 600;
     hp = 2;
     points = 300;
+	detection_radius = 700;
 	starting_pos["x"] = 1700;
     starting_pos["y"] = 500;
 	enemy_pos = Vector2(starting_pos["x"], starting_pos["y"]);
 	distance = 1500;
 
-//state machine manages state
+	//state machine manages state
 	state_machine  = memnew(StateMachine);
 	state_machine->change_state("Idle");
 	current_state = state_machine->get_state();
-
-	// StateIdle* idle_state = memnew(StateIdle);
-    // states["Idle"] = idle_state; 
-	// StateChasing* chasing_state = memnew(StateChasing);
-    // states["Chasing"] = chasing_state; 
-
-	// current_state = Object::cast_to<State>(states["Idle"].operator Object*());
 }
 
 EnemyChaser::~EnemyChaser() {
@@ -79,49 +73,22 @@ void EnemyChaser::_process(double delta) {
 		set_position(new_position);
 	}
 	distance = enemy_pos.distance_to(player_pos);
-	if (distance < 500.0 && current_state == state_machine->states["Idle"]) {
+	//if the distance between enemy & player is within detection, changes the state to "Chasing"
+	if (distance < detection_radius && current_state == state_machine->states["Idle"]) {
 		current_state = state_machine->change_state("Chasing");
 		state_machine->change_state("Chasing");
 	};
 	enemy_pos = new_position;
+
+	//Finds player coords relative to enemy, and moves enemy towards player in a chasing state
 	Node *parent_node = get_parent();
 	player_pos = parent_node->get("player_pos");
 	if (current_state == state_machine->states["Chasing"]) {
 		set_position(current_state->seekplayer(player_pos, enemy_pos));
 		enemy_pos = get_position();
 	};
-
-	if (current_state == state_machine->states["Chasing"]) {
-		UtilityFunctions::print("state set to chasing");
-	} else if (current_state == state_machine->states["Idle"]) {
-		UtilityFunctions::print("state set to idle");
-	} else {
-		UtilityFunctions::print("womp womp");
-	};
 }
 
-// void EnemyChaser::_process_ai() { 
-// 	float distance = enemy_pos.distance_to(player_pos);
-// 	UtilityFunctions::print(distance);
-// 	if (distance < 100.0f) {
-//         return;
-//     };
-// }
-
-
-//function to move position left at a constant given speed, made to call within the script
-Vector2 EnemyChaser::move_left(const Vector2 p_position) {
-    Vector2 new_position_left = p_position;
-    new_position_left.x -= speed * time_passed;
-
-    set_position(new_position_left);
-	return new_position_left;
-}
-
-//function to oscillate position at given amplitude, made to call within the script
-Vector2 EnemyChaser::oscillate(const Vector2 p_position) {
-	return p_position;
-}
 
 void EnemyChaser::set_speed(const double p_speed) {
 	speed = p_speed;

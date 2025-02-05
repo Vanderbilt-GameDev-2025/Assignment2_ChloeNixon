@@ -5,7 +5,7 @@
 #include <godot_cpp/classes/sprite2d.hpp>
 
 namespace godot {
-//Class defining the 'idle' state, where the enemy is moving slowly.
+//Class defining the 'idle' state, where the enemy is moving slowly left.
 class StateIdle : public State {
 	GDCLASS(StateIdle, State)
 
@@ -21,8 +21,6 @@ public:
     void enter() override;
     Vector2 update(double time_passed) override;
     void exit() override;
-    // void move_left(const Vector2 p_position) override;
-    // void oscillate(const Vector2 p_position) override;
 };
 
 }
