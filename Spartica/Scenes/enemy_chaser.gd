@@ -10,3 +10,7 @@ func _on_area_hit_gd() -> void:
 
 func _on_area_killed_gd(points: Variant) -> void:
 	killed_gd.emit(points)
+
+
+func _on_killed_gd(points: Variant) -> void:
+	queue_free()

@@ -59,9 +59,9 @@ func _process(delta: float) -> void:
 	foreground.scroll_offset.x -= delta * scroll_speeds[1]
 	if foreground.scroll_offset.x >= 1820:
 		foreground.scroll_offset.x = 0
-		
-	player_coordinates.emit(player.global_position)
-	player_pos = player.global_position
+	if player and is_instance_valid(player):
+		player_coordinates.emit(player.global_position)
+		player_pos = player.global_position
 		
 
 # when bullet is shot, adds a bullet to the scene going right
