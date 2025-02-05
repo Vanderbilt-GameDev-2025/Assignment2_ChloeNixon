@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://bbcpmq65lbiod"]
+
+[ext_resource type="Texture2D" uid="uid://buga3a84ivobp" path="res://assets/player.png" id="1_lon1f"]
+[ext_resource type="Script" path="res://Scripts/player.gd" id="1_rwcoo"]
+
+[node name="player" type="CharacterBody2D"]
+collision_mask = 2
+motion_mode = 1
+script = ExtResource("1_rwcoo")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.04, 0.04)
+texture = ExtResource("1_lon1f")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+rotation = 1.5708
+scale = Vector2(0.04, 0.04)
+polygon = PackedVector2Array(8, -1207, -525.003, -924.998, -961, 172, -1108, 608, -891, 1064, -8, 1226, 930, 1031, 1083, 603, 963, 192, 524.997, -925.002)
+
+[node name="shooter" type="Marker2D" parent="."]
+position = Vector2(51, 0)

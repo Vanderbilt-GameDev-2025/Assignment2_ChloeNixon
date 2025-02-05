@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://bifhmuluwx1p5"]
+
+[ext_resource type="PackedScene" uid="uid://pnqc5qhbefii" path="res://Scenes/gd_enemy.tscn" id="1_fbwa6"]
+[ext_resource type="Texture2D" uid="uid://b1bdgjhv3hy4a" path="res://assets/enemy_green.png" id="2_4ps2q"]
+[ext_resource type="Script" path="res://Scripts/gd_area_green.gd" id="2_mowc4"]
+
+[node name="GDEnemy_purple" instance=ExtResource("1_fbwa6")]
+texture = null
+
+[node name="enemy_area" parent="." index="0"]
+script = ExtResource("2_mowc4")
+
+[node name="Sprite2D" parent="enemy_area" index="0"]
+texture = ExtResource("2_4ps2q")
+
+[node name="CollisionPolygon2D" parent="enemy_area" index="1"]
+polygon = PackedVector2Array(1106.74, 247.004, 1726.74, 687.008, 2266.73, 1787.01, 1166.73, 2147, 106.732, 2027, 86.7344, 1307, 566.737, 647.004)
+
+[node name="VisibleOnScreenNotifier2D" parent="." index="1"]
+position = Vector2(1126.73, 2407)

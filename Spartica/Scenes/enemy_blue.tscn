@@ -1,0 +1,20 @@
+[gd_scene load_steps=3 format=3 uid="uid://6fekd4tfr5yr"]
+
+[ext_resource type="PackedScene" uid="uid://40peos8gveuw" path="res://Scenes/enemy.tscn" id="1_6jbg8"]
+[ext_resource type="Texture2D" uid="uid://dpu5b35f105ps" path="res://assets/enemy_blue.png" id="2_qn5tg"]
+
+[node name="enemy_blue" instance=ExtResource("1_6jbg8")]
+enemy_speed = 600
+enemy_hp = 2
+points = 200
+
+[node name="Sprite" parent="." index="0"]
+scale = Vector2(0.05, 0.05)
+texture = ExtResource("2_qn5tg")
+
+[node name="CollisionPolygon2D" parent="." index="1"]
+polygon = PackedVector2Array(66.25, -1.24983, 35.0001, -26.2499, -28.7499, -47.5001, -63.7499, -33.7502, -65.0001, 33.7498, -30.0001, 47.4999, 32.4999, 28.7501)
+
+[node name="VisibleOnScreenNotifier2D" parent="." index="2"]
+position = Vector2(68, -1)
+scale = Vector2(0.95, 1.8)

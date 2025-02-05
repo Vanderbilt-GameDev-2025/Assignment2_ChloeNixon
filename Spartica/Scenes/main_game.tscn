@@ -1,0 +1,102 @@
+[gd_scene load_steps=15 format=3 uid="uid://dxx6k3sk1cfq2"]
+
+[ext_resource type="Script" path="res://Scripts/mainscript.gd" id="1_eakg3"]
+[ext_resource type="PackedScene" uid="uid://m3bygn8y7q84" path="res://Scenes/gd_enemy_blue.tscn" id="4_m0sqh"]
+[ext_resource type="AudioStream" uid="uid://dkscnv4j7qd06" path="res://assets/audio/laser_three.wav" id="4_u8we4"]
+[ext_resource type="PackedScene" uid="uid://bifhmuluwx1p5" path="res://Scenes/gd_enemy_green.tscn" id="5_plpo5"]
+[ext_resource type="AudioStream" uid="uid://cq4fy2e7aonj2" path="res://assets/audio/enemy_hit.wav" id="6_yvqft"]
+[ext_resource type="PackedScene" uid="uid://ce6nw2lbta406" path="res://Scenes/hud.tscn" id="7_6lsh7"]
+[ext_resource type="AudioStream" uid="uid://br4r4okbce5f7" path="res://assets/audio/enemy_death.wav" id="7_8kmxq"]
+[ext_resource type="PackedScene" uid="uid://cn3tbstedsutc" path="res://Scenes/game_over.tscn" id="8_4a6sa"]
+[ext_resource type="Texture2D" uid="uid://w5gjt1dn5nhf" path="res://assets/background.png" id="9_tqc03"]
+[ext_resource type="Texture2D" uid="uid://domnkmo5kctmm" path="res://assets/background_planets.png" id="10_por3g"]
+[ext_resource type="Texture2D" uid="uid://du4mvkymuad0t" path="res://assets/background_stars.png" id="11_x6ayp"]
+[ext_resource type="PackedScene" uid="uid://bbcpmq65lbiod" path="res://Scenes/player.tscn" id="12_cbaq6"]
+[ext_resource type="PackedScene" uid="uid://pnqc5qhbefii" path="res://Scenes/gd_enemy.tscn" id="13_47dat"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o3t77"]
+particle_flag_disable_z = true
+emission_shape = 3
+emission_box_extents = Vector3(405, 1, 1)
+angle_min = 1.07288e-05
+angle_max = 720.0
+direction = Vector3(0, 1, 0)
+spread = 0.0
+initial_velocity_min = 443.18
+initial_velocity_max = 488.64
+gravity = Vector3(0, 0, 0)
+scale_min = 2.9
+scale_max = 18.05
+color = Color(0, 0.737255, 0.870588, 0.196078)
+hue_variation_min = -0.08
+hue_variation_max = 0.13
+
+[node name="Maingame" type="Node2D"]
+script = ExtResource("1_eakg3")
+enemy_scene_gd = Array[PackedScene]([ExtResource("13_47dat"), ExtResource("5_plpo5"), ExtResource("4_m0sqh")])
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="bullet_shot" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("4_u8we4")
+
+[node name="enemy_hit" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("6_yvqft")
+
+[node name="enemy_killed" type="AudioStreamPlayer" parent="SFX"]
+stream = ExtResource("7_8kmxq")
+
+[node name="UILayer" type="CanvasLayer" parent="."]
+
+[node name="HUD" parent="UILayer" instance=ExtResource("7_6lsh7")]
+
+[node name="gameOverHUD" parent="UILayer" instance=ExtResource("8_4a6sa")]
+visible = false
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="SkyBackdrop" type="Sprite2D" parent="ParallaxBackground"]
+position = Vector2(910, 405)
+scale = Vector2(0.481013, 0.482227)
+texture = ExtResource("9_tqc03")
+region_rect = Rect2(0, 0, 1820, 810)
+
+[node name="ParallaxBacklayer" type="ParallaxLayer" parent="ParallaxBackground"]
+
+[node name="Planets" type="Sprite2D" parent="ParallaxBackground/ParallaxBacklayer"]
+position = Vector2(2820, 403)
+scale = Vector2(0.486967, 0.486967)
+texture = ExtResource("10_por3g")
+
+[node name="ParallaxForeground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxForelayer" type="ParallaxLayer" parent="ParallaxForeground"]
+motion_mirroring = Vector2(1820, 0)
+
+[node name="Stars" type="Sprite2D" parent="ParallaxForeground/ParallaxForelayer"]
+position = Vector2(900.825, 401)
+scale = Vector2(0.488152, 0.488152)
+texture = ExtResource("11_x6ayp")
+region_rect = Rect2(0, 0, 1820, 810)
+
+[node name="player" parent="." instance=ExtResource("12_cbaq6")]
+position = Vector2(100, 405)
+
+[node name="playerSpawnPosition" type="Marker2D" parent="."]
+position = Vector2(100, 405)
+
+[node name="bulletContainer" type="Node2D" parent="."]
+
+[node name="enemyContainer" type="Node2D" parent="."]
+
+[node name="enemySpawnTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="StarParticles2D" type="GPUParticles2D" parent="."]
+position = Vector2(1850, 405)
+rotation = 1.5708
+amount = 60
+process_material = SubResource("ParticleProcessMaterial_o3t77")
+lifetime = 4.0
+
+[connection signal="timeout" from="enemySpawnTimer" to="." method="_on_enemy_spawn_timer_timeout"]
